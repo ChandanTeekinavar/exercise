@@ -1,7 +1,8 @@
-FROM PHP:7.4
+FROM php:7.4-fpm
 
 RUN apt-get update && apt-get install -y \
     build-essential \
+    libonig-dev\
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
@@ -13,7 +14,10 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     nodejs \
-    npm
+    npm \
+    libzip-dev 
+
+RUN docker-php-ext-configure zip && docker-php-ext-install zip
 
 RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl    
 
@@ -29,10 +33,10 @@ COPY .env.example .env
 
 RUN php artisan key:generate
 
-RUN php artisan migrate --seed
+RUN 
 
 RUN npm install && npm run dev
 
 EXPOSE 8000
 
-CMD php artisan serve --host=0.0.0.0 --port=8000
+CMD sh -c "php artisan migrate --seed && php artisan serve --host=0.0.0.0"

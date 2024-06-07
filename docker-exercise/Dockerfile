@@ -13,13 +13,14 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
-    nodejs \
-    npm \
     libzip-dev 
 
 RUN docker-php-ext-configure zip && docker-php-ext-install zip
 
-RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl    
+RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl   
+
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+    apt-get install -y nodejs
 
 WORKDIR /var/www/html
 
@@ -33,10 +34,8 @@ COPY .env.example .env
 
 RUN php artisan key:generate
 
-RUN 
-
 RUN npm install && npm run dev
 
 EXPOSE 8000
 
-CMD sh -c "php artisan migrate --seed && php artisan serve --host=0.0.0.0"
+CMD sh -c "php artisan migrate --seed && php artisan serve --host=0.0.0.0 --port=8000" 

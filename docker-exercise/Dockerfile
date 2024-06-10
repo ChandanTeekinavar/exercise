@@ -13,7 +13,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
-    libzip-dev 
+    libzip-dev \
+    default-mysql-client
 
 RUN docker-php-ext-configure zip && docker-php-ext-install zip
 
@@ -34,8 +35,8 @@ COPY .env.example .env
 
 RUN php artisan key:generate
 
-RUN npm install && npm run dev
+RUN npm install
 
 EXPOSE 8000
 
-CMD sh -c "php artisan migrate --seed && php artisan serve --host=0.0.0.0 --port=8000" 
+CMD ["sh", "-c",  "php artisan migrate && npm run dev && php artisan serve --host=0.0.0.0 --port=8000"]

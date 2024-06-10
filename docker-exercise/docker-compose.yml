@@ -6,14 +6,14 @@ services:
     container_name: job_app_management_app
     depends_on:
       - db
-   # environment:
-    #  DB_HOST: db
-     # DB_DATABASE: apply
-      #DB_USERNAME: root
-      #DB_PORT: 3306
-      #DB_PASSWORD: 12345678
+    environment:
+      DB_HOST: db
+      DB_DATABASE: apply
+      DB_USERNAME: root
+      DB_PORT: 3306
+      DB_PASSWORD: 12345678
     ports:
-      - "8000:8000"
+        - "8000:8000"
     restart: always
 
   db:

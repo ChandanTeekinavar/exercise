@@ -16,17 +16,14 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     default-mysql-client
 
-RUN docker-php-ext-configure zip && docker-php-ext-install zip
-
-RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl   
+RUN docker-php-ext-configure zip && docker-php-ext-install pdo_mysql mbstring zip exif pcntl   
 
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
     apt-get install -y nodejs
 
 WORKDIR /var/www/html
 
-COPY . /var/www/html
-
+COPY . .
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN composer install

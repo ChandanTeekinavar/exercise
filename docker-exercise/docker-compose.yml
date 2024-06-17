@@ -15,8 +15,6 @@ services:
     ports:
         - "8000:8000"
     restart: always
-    volumes:
-      - app_data:/var/www/html
 
   db:
     image: mysql:8.0

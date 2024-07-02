@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: job-app
+  namespace: job-app-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: job-app
+  template:
+    metadata:
+      labels:
+        app: job-app
+    spec:
+      containers:
+      - name: job-app
+        image: chandanteekinavar/docker-exercise-app:latest
+        env:
+        - name: DB_HOST
+          value: "db"
+        - name: DB_PORT
+          value: "3306"  
+        - name: DB_DATABASE
+          value: "apply"
+        - name: DB_USERNAME
+          value: "root"
+        - name: DB_PASSWORD
+          value: "12345678"
+        ports:
+        - containerPort: 8000

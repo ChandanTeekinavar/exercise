@@ -1,0 +1,32 @@
+services:
+  app:
+    build: .
+    container_name: velflix
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_DATABASE: velflix
+      DB_USERNAME: root
+      DB_PORT: 3306
+      DB_PASSWORD: 12345678
+    ports:
+        - "8000:8000"
+    restart: always
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      MYSQL_PORT: 3306
+      MYSQL_ROOT_PASSWORD: 12345678
+      MYSQL_DATABASE: velflix
+    ports: 
+      - "3306:3306"
+    volumes:
+      - velflix_data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+
+  
+volumes:
+  velflix_data:

@@ -1,6 +1,7 @@
 services:
   app:
     build: .
+    image: chandanteekinavar/velflix:1.0
     container_name: velflix
     depends_on:
       - db

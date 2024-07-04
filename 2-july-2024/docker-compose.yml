@@ -4,8 +4,8 @@ services:
  web:
    build:
      context: .
-   command: sh -c "composer update && php artisan key:generate && php artisan migrate && php artisan migrate:refresh --seed && php artisan serve --host=0.0.0.0 --port=8000"
-   #image: pojok-lelang:v1.0.0
+   image: chandanteekinavar/pojok_lelang:1.0
+#   command: sh -c "composer update && php artisan key:generate && php artisan migrate && php artisan migrate:refresh --seed && php artisan serve --host=0.0.0.0 --port=8000"
    environment:
      DB_HOST: db
      DB_PORT: 3306

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pojok-lelang
+  namespace: pojok-lelang
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pojok-lelang
+  template:
+    metadata:
+      labels:
+        app: pojok-lelang
+    spec:
+      containers:
+      - name: pojok-lelang
+        image: chandanteekinavar/pojok_lelang:1.0
+        env:
+        - name: DB_HOST
+          value: "db"
+        - name: DB_PORT
+          value: "3306"  
+        - name: DB_DATABASE
+          value: "pojok_lelang"
+        - name: DB_USERNAME
+          value: "root"
+        - name: DB_PASSWORD
+          value: "root"
+        ports:
+        - containerPort: 8000

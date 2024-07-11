@@ -18,14 +18,29 @@ spec:
         image: chandanteekinavar/pojok_lelang:1.0
         env:
         - name: DB_HOST
-          value: "db"
+          valueFrom:
+            configMapKeyRef:
+              key: db-host
+              name: db-config
         - name: DB_PORT
-          value: "3306"  
+          valueFrom:
+            configMapKeyRef:
+              key: db-port
+              name: db-config 
         - name: DB_DATABASE
-          value: "pojok_lelang"
+          valueFrom:
+            configMapKeyRef:
+              key: database
+              name: db-config
         - name: DB_USERNAME
-          value: "root"
+          valueFrom:
+            configMapKeyRef:
+              key: db-username
+              name: db-config
         - name: DB_PASSWORD
-          value: "root"
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: db-secret
         ports:
         - containerPort: 8000

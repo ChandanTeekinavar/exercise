@@ -48,4 +48,4 @@ EXPOSE 8000
 
 #CMD [php artisan migrate:refresh --seed  && php artisan serve --host=0.0.0.0 --port=8000]
 
-CMD ["sh", "-c", "composer update && php artisan key:generate && php artisan migrate && php artisan migrate:refresh --seed && php artisan serve --host=0.0.0.0 --port=8000"]
+CMD ["sh", "-c", "composer update && php artisan key:generate && php artisan migrate && php artisan serve --host=0.0.0.0 --port=8000"]

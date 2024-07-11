@@ -19,9 +19,15 @@ spec:
         image: mysql:8.0
         env:
         - name: MYSQL_ROOT_PASSWORD
-          value: "root"
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: db-secret
         - name: MYSQL_DATABASE
-          value: "pojok_lelang"
+          valueFrom:
+            configMapKeyRef:
+              key: database
+              name: db-config
         ports:
         - containerPort: 3306
           name: mysql

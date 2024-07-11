@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata: 
+  name: db-config
+  namespace: pojok-lelang
+immutable: false
+data:
+  database: pojok_lelang
+  db-host: db
+  db-port: 3306
+  db-username: root

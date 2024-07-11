@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata: 
+  name: config
+  namespace: velflix
+immutable: false
+data:
+  database: velflix
+  db-host: db
+  db-port: "3306"
+  db-username: root
+
+

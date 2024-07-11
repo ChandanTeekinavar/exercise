@@ -18,14 +18,29 @@ spec:
         image: chandanteekinavar/velflix:1.0
         env:
         - name: DB_HOST
-          value: "db"
+          valueFrom:
+            configMapKeyRef:
+              key: db-host
+              name: config
         - name: DB_PORT
-          value: "3306"  
+          valueFrom:
+            configMapKeyRef:
+              key: db-port
+              name: config
         - name: DB_DATABASE
-          value: "velflix"
+          valueFrom:
+            configMapKeyRef:
+              key: database
+              name: config
         - name: DB_USERNAME
-          value: "root"
+          valueFrom:
+            configMapKeyRef:
+              key: db-username
+              name: config
         - name: DB_PASSWORD
-          value: "12345678"
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: secret
         ports:
         - containerPort: 8000

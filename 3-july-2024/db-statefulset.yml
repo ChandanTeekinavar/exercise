@@ -19,9 +19,15 @@ spec:
         image: mysql:8.0
         env:
         - name: MYSQL_ROOT_PASSWORD
-          value: "12345678"
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: secret
         - name: MYSQL_DATABASE
-          value: "velflix"
+          valueFrom:
+            configMapKeyRef:
+              key: database
+              name: config
         ports:
         - containerPort: 3306
           name: mysql

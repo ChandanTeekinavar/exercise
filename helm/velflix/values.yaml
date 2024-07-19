@@ -1,0 +1,45 @@
+# Default values for job-app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# namespace: velflix
+
+immutable: false
+
+replicaCount: 1
+
+image:
+  repository: chandanteekinavar/velflix
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "1.1"
+
+#mySql env's
+mysql:
+  enabled: true
+  fullnameOverride: db
+  auth:
+    rootPassword: "12345678"
+    database: velflix
+    port: "3306"
+    # username: "root"
+
+env:
+  dbHost: "db"
+  dbPort: "3306"  
+  database: "velflix"
+  dbUsername: "root"
+  password: "12345678"
+
+
+podLabels: {}
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+
+ingress:
+  host: "velflix1.com"
+  path: /
+  pathType: Prefix

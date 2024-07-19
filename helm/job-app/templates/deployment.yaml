@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "job-app.fullname" . }}
+  labels:
+    {{- include "job-app.labels" . | nindent 4 }}
+  # namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{  .Values.replicaCount  }}
+  selector:
+    matchLabels:
+      {{- include "job-app.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "job-app.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: DB_HOST
+            # value: {{ .Values.env.dbHost | quote  }}
+            valueFrom:
+              configMapKeyRef:
+                key: db-host
+                name: {{ include "job-app.fullname" . }}
+          - name: DB_PORT
+            # value: {{ .Values.env.dbPort | quote  }}
+            valueFrom:
+              configMapKeyRef:
+                key: db-port
+                name: {{ include "job-app.fullname" . }}            
+          - name: DB_DATABASE
+            # value: {{ .Values.env.database | quote  }}
+            valueFrom:
+              configMapKeyRef:
+                key: database
+                name: {{ include "job-app.fullname" . }} 
+          - name: DB_USERNAME
+            # value: {{ .Values.env.dbUsername | quote  }}
+            valueFrom:
+              configMapKeyRef:
+                key: db-username
+                name: {{ include "job-app.fullname" . }}
+          - name: DB_PASSWORD
+            # value: {{ .Values.env.password | quote  }}
+            valueFrom:
+              secretKeyRef:
+                key: password
+                name: {{ include "job-app.fullname" . }}
+          
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.targetPort }}
+              protocol: TCP

@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: job-app-management-ingress
+  namespace: job-app-management
+#  annotations:
+#    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+    - host: job-app.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: job-app
+                port:
+                  number: 80

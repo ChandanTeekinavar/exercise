@@ -1,0 +1,46 @@
+# Default values for job-app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# namespace: pojok-lelang
+
+immutable: false
+
+replicaCount: 1
+
+image:
+  repository: chandanteekinavar/pojok_lelang
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "1.0"
+
+#mySql env's
+mysql:
+  enabled: true
+  fullnameOverride: db
+  auth:
+    rootPassword: ""
+    database: "pojok_lelang"
+    port: "3306"
+    # username: "root"
+
+env:
+  dbHost: "db"
+  dbPort: "3306"  
+  database: "pojok_lelang"
+  dbUsername: "root"
+  password: "cm9vdA=="
+
+
+podLabels: {}
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+
+ingress:
+  host: "pojok-lelang.com"
+  path: /
+  pathType: Prefix
+

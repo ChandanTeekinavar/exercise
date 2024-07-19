@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "pojok-lelang.fullname" . }}
+  labels:
+    {{- include "pojok-lelang.labels" . | nindent 4 }}
+  # namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{  .Values.replicaCount  }}
+  selector:
+    matchLabels:
+      {{- include "pojok-lelang.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "pojok-lelang.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: DB_HOST
+            # value: {{ .Values.env.dbHost | quote  }}
+            valueFrom:
+              configMapKeyRef:
+                key: db-host
+                name: {{ include "pojok-lelang.fullname" . }}
+          - name: DB_PORT
+            # value: {{ .Values.env.dbPort | quote  }}
+            valueFrom:
+              configMapKeyRef:
+                key: db-port
+                name: {{ include "pojok-lelang.fullname" . }}            
+          - name: DB_DATABASE
+            # value: {{ .Values.env.database | quote  }}
+            valueFrom:
+              configMapKeyRef:
+                key: database
+                name: {{ include "pojok-lelang.fullname" . }} 
+          - name: DB_USERNAME
+            # value: {{ .Values.env.dbUsername | quote  }}
+            valueFrom:
+              configMapKeyRef:
+                key: db-username
+                name: {{ include "pojok-lelang.fullname" . }}
+          - name: DB_PASSWORD
+            # value: {{ .Values.env.password | quote  }}
+            valueFrom:
+              secretKeyRef:
+                key: password
+                name: {{ include "pojok-lelang.fullname" . }}
+          
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.targetPort }}
+              protocol: TCP

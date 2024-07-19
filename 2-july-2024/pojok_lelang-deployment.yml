@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pojok-lelang
+  namespace: pojok-lelang
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pojok-lelang
+  template:
+    metadata:
+      labels:
+        app: pojok-lelang
+    spec:
+      containers:
+      - name: pojok-lelang
+        image: chandanteekinavar/pojok_lelang:1.0
+        env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: db-host
+              name: db-config
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: db-port
+              name: db-config 
+        - name: DB_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: database
+              name: db-config
+        - name: DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              key: db-username
+              name: db-config
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: db-secret
+        ports:
+        - containerPort: 8000

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-db
+  namespace: pojok-lelang
+spec:
+  selector:
+    matchLabels:
+      app: mysql-db
+#  serviceName: "db"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: mysql-db
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: db-secret
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: database
+              name: db-config
+        ports:
+        - containerPort: 3306
+          name: mysql
+        args: ["--default-authentication-plugin=mysql_native_password"]  
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 1Gi

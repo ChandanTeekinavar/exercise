@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  namespace: pojok-lelang
+  labels:
+    app: mysql-db
+spec:
+  ports:
+    - port: 3306
+      name: mysql
+  clusterIP: None
+  selector:
+    app: mysql-db

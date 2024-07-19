@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: velflix
+  namespace: velflix
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: velflix
+  template:
+    metadata:
+      labels:
+        app: velflix
+    spec:
+      containers:
+      - name: velflix
+        image: chandanteekinavar/velflix:1.0
+        env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: db-host
+              name: config
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: db-port
+              name: config
+        - name: DB_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: database
+              name: config
+        - name: DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              key: db-username
+              name: config
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: secret
+        ports:
+        - containerPort: 8000

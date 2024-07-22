@@ -40,6 +40,7 @@ service:
   targetPort: 8000
 
 ingress:
+  enabled: true
   host: "velflix1.com"
   path: /
   pathType: Prefix

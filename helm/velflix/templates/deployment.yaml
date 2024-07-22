@@ -23,37 +23,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-          - name: DB_HOST
-            # value: {{ .Values.env.dbHost | quote  }}
-            valueFrom:
-              configMapKeyRef:
-                key: db-host
-                name: {{ include "velflix.fullname" . }}
-          - name: DB_PORT
-            # value: {{ .Values.env.dbPort | quote  }}
-            valueFrom:
-              configMapKeyRef:
-                key: db-port
-                name: {{ include "velflix.fullname" . }}            
-          - name: DB_DATABASE
-            # value: {{ .Values.env.database | quote  }}
-            valueFrom:
-              configMapKeyRef:
-                key: database
-                name: {{ include "velflix.fullname" . }} 
-          - name: DB_USERNAME
-            # value: {{ .Values.env.dbUsername | quote  }}
-            valueFrom:
-              configMapKeyRef:
-                key: db-username
-                name: {{ include "velflix.fullname" . }}
-          - name: DB_PASSWORD
-            value: "12345678"
-            # value: {{ .Values.env.password | quote  }}
-            # valueFrom:
-            #   secretKeyRef:
-            #     key: password
-            #     name: {{ include "velflix.fullname" . }}
+          {{- toYaml .Values.env | nindent 10 }}
           ports:
             - name: http
               containerPort: {{ .Values.service.targetPort }}

@@ -1,0 +1,9 @@
+mysql:
+  enabled: true
+  fullnameOverride: "db"
+  nameOverride: "db"
+  auth:
+    rootPassword: "12345678"
+    database: "apply"
+    port: "3306"
+    username: "root"

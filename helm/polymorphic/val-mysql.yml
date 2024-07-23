@@ -1,0 +1,6 @@
+mysqlRootPassword: "12345678"
+mysqlUser: test 
+mysqlPassword: test123
+mysqlDatabase: apply
+
+

@@ -1,0 +1,90 @@
+nameOverride: ""
+fullnameOverride: ""
+prefixWithReleaseName:
+  enabled: true
+image:
+  repository: chandanteekinavar/docker-exercise-app
+  tag: "2.0"
+  pullPolicy: IfNotPresent
+
+env:
+  - name: DB_HOST
+    value: "my-mysql"
+  - name: DB_PORT
+    value: "3306"  
+  - name: DB_DATABASE
+    value: "apply"
+  - name: DB_USERNAME
+    value: "root"
+  - name: DB_PASSWORD
+    value: "12345678"
+
+
+services:
+  - name: job
+    image:
+    averageUtilization: 50
+
+    healthcheck:
+      enabled: false
+      type: httpGet
+
+
+
+    autoscaling: false
+    minReplicaCount: 1
+    maxReplicaCount: 1
+    env: []
+    envFrom: []
+    command: ["sh", "-c", "npm run dev && php artisan serve --host=0.0.0.0 --port=8000"]
+    ports:
+    - name: http
+      containerPort: 8000
+      protocol: TCP
+
+
+    service:
+      enabled: true
+      # className: nginx
+      type: ClusterIP
+      ports:
+      - name: http
+        port: 80
+        targetPort: 8000
+        protocol: TCP
+      annotations: {}
+          
+    ingress:
+      enabled: true
+      annotations: {}
+      hosts:
+        - host: job-app.com
+          paths:
+            - path: "/"
+              pathType: Prefix
+              serviceName: http
+              servicePort: 80
+
+
+
+jobs:
+  - name: migrate
+    image: 
+      repository: chandanteekinavar/docker-exercise-app
+      tag: "2.0"
+      annotations: 
+        "helm.sh/hook": pre-install
+        "helm.sh/hook-weight": "0"
+        "helm.sh/hook-delete-policy": hook-succeeded
+      env:
+        - name: DB_HOST
+          value: "my-mysql"
+        - name: DB_PORT
+          value: "3306"  
+        - name: DB_DATABASE
+          value: "apply"
+        - name: DB_USERNAME
+          value: "root"
+        - name: DB_PASSWORD
+          value: "12345678"
+      command: ["sh", "-c", "php artisan migrate:refresh && php artisan db:seed"]

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: db
+  name: my-mysql
   namespace: job-app-management
   labels:
     app: mysql-db

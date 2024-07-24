@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: laravel-migrate
+  namespace: job-app-management
+spec:
+  template:
+    spec:
+      containers:
+      - name: migrate
+        image: chandanteekinavar/docker-exercise-app:2.0
+        imagePullPolicy: IfNotPresent
+        command: ["sh", "-c", "php artisan migrate && php artisan migrate:refresh && php artisan db:seed"]
+        env:
+        - name: DB_HOST
+          value: "my-mysql"
+        - name: DB_PORT
+          value: "3306"  
+        - name: DB_DATABASE
+          value: "apply"
+        - name: DB_USERNAME
+          value: "root"
+        - name: DB_PASSWORD
+          value: "12345678"
+      restartPolicy: Never
+  backoffLimit: 4

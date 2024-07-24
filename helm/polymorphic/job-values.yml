@@ -76,15 +76,4 @@ jobs:
         "helm.sh/hook": pre-install
         "helm.sh/hook-weight": "0"
         "helm.sh/hook-delete-policy": hook-succeeded
-      env:
-        - name: DB_HOST
-          value: "my-mysql"
-        - name: DB_PORT
-          value: "3306"  
-        - name: DB_DATABASE
-          value: "apply"
-        - name: DB_USERNAME
-          value: "root"
-        - name: DB_PASSWORD
-          value: "12345678"
       command: ["sh", "-c", "php artisan migrate:refresh && php artisan db:seed"]

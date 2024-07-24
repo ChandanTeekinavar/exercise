@@ -15,10 +15,12 @@ spec:
     spec:
       containers:
       - name: job-app
-        image: chandanteekinavar/docker-exercise-app:latest
+        image: chandanteekinavar/docker-exercise-app:2.0
+        imagePullPolicy: IfNotPresent
+        command: ["sh", "-c", "npm run dev && php artisan serve --host=0.0.0.0 --port=8000"]
         env:
         - name: DB_HOST
-          value: "db"
+          value: "my-mysql"
         - name: DB_PORT
           value: "3306"  
         - name: DB_DATABASE

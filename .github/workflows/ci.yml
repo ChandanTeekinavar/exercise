@@ -32,4 +32,4 @@ jobs:
           file: docker-exercise/Dockerfile
           context: docker-exercise
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/docker-exercise-app:2.1
+          tags: ${{ secrets.DOCKER_USERNAME }}/docker-exercise-app:2.2

@@ -24,6 +24,8 @@ jobs:
       #     docker tag ${{ secrets.DOCKER_USERNAME }}/docker-exercise:latest ${{ secrets.DOCKER_USERNAME }}/docker-exercise:${GITHUB_SHA}
       #     docker push ${{ secrets.DOCKER_USERNAME }}/docker-exercise:latest
       #     docker push ${{ secrets.DOCKER_USERNAME }}/docker-exercise:${GITHUB_SHA}
+
+      #Building the docker image and pushing it to dockerhub
       - name: Build and push
         uses: docker/build-push-action@v6
         with:

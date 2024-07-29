@@ -25,11 +25,14 @@ jobs:
       #     docker push ${{ secrets.DOCKER_USERNAME }}/docker-exercise-app:2.1 .
       #     # docker push ${{ secrets.DOCKER_USERNAME }}/docker-exercise:${GITHUB_SHA}
 
-
+      - name: set env
+        run: echo "::set-env name=NOW::$(date +'%Y-%m-%dT%H:%M:%S')"      
+                        
+              
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v6
         with:
           file: docker-exercise/Dockerfile
           context: docker-exercise
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/docker-exercise-app:${{ github.event.branch }}-$( git rev-parse --short HEAD )-${{ env.TIMESTAMP }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/docker-exercise-app:${{ github.event.branch }}-$( git rev-parse --short HEAD ) - ${{ env.NOW }}

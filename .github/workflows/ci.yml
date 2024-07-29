@@ -32,4 +32,4 @@ jobs:
           file: docker-exercise/Dockerfile
           context: docker-exercise
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/docker-exercise-app:${{ github.event.branch }}-${{ github.sha::8 }}-${{ env.TIMESTAMP }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/docker-exercise-app:${{ github.event.branch }}-${{ git rev-parse HEAD }}-${{ env.TIMESTAMP }}

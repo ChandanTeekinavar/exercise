@@ -32,4 +32,5 @@ jobs:
           file: docker-exercise/Dockerfile
           context: docker-exercise
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/docker-exercise-app:${{ github.ref }}-${{ github.sha }}-${{ steps.timestamp.outputs.timestamp }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/docker-exercise-app:${{ github.event.branch || github.sha }}-${{ github.sha }}-${{ env.TIMESTAMP }}
+

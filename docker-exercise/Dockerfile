@@ -50,4 +50,4 @@ EXPOSE 8000
 
 # CMD ["sh", "-c", "php artisan migrate && php artisan migrate:refresh && php artisan db:seed && npm run dev && php artisan serve --host=0.0.0.0 --port=8000"]
 
-#for testing ci
+#Testing Ci pipeline

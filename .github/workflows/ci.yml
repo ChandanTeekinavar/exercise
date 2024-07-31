@@ -12,7 +12,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: tag
+      - name: Create Tag
         id: tag
         run: echo "tag=${{github.ref_name}}-$(git rev-parse --short HEAD)-$(date +%s)"
 

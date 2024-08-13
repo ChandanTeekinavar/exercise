@@ -1,0 +1,21 @@
+alertmanager:
+  enabled: true
+  config:
+    global:
+      resolve_timeout: 5m
+    route:
+      group_by: [alertname]
+      receiver: 'slack'
+      matchers:
+      - severity = "critical"
+      routes:
+        - receiver: 'slack'
+          matchers:
+            - severity = "critical"
+    receivers:
+    - name: 'slack'
+      slack_configs:
+          - url: https://talk.improwised.com/hooks/91rz8cc69bgftgrqgwh5dx988e
+            channel: '#demo-alerting' 
+    rule_files:
+      - rules.yaml

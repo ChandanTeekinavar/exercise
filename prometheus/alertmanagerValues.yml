@@ -1,23 +1,45 @@
-alertmanager:
-  enabled: true
-  config:
-    global:
-      # resolve_timeout: 5m
-      slack_api_url: "https://hooks.slack.com/services/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"
-    route:
-      receiver: 'slack'
-      matchers:
-      - severity = "critical"
-      routes:
-        - receiver: 'slack'
-          matchers:
-            - severity = "critical"
-    receivers:
-    - name: 'slack'
-      slack_configs:
-          # - url: https://talk.improwised.com/hooks/91rz8cc69bgftgrqgwh5dx988e
-          # - url: https://hooks.slack.com/services/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
-            channel: '#demo-alerting' # channel of prometheus alert
-            text: 'urgent action needed Instance is down'
-    rule_files:
-      - rules.yaml
+# alertmanager:
+#   enabled: true
+#   config:
+#     global:
+#       # resolve_timeout: 5m
+#       slack_api_url: "https://hooks.slack.com/services/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"
+#     route:
+#       receiver: 'slack'
+#       matchers:
+#       - severity = "critical"
+#       routes:
+#         - receiver: 'slack'
+#           matchers:
+#             - severity = "critical"
+#     receivers:
+#     - name: 'slack'
+#       slack_configs:
+#           # - url: https://talk.improwised.com/hooks/91rz8cc69bgftgrqgwh5dx988e
+#           # - url: https://hooks.slack.com/services/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
+#             channel: '#demo-alerting' # channel of prometheus alert
+#             text: 'urgent action needed Instance is down'
+#     rule_files:
+#       - rules.yaml
+
+
+ alertmanager:
+      alertmanagerSpec:
+        replicas: 2
+        podAntiAffinity: "hard"
+      config:
+        global:
+          slack_api_url: "https://hooks.slack.com/services/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"
+        route:
+          receiver: 'slack'
+          routes:
+          - receiver: 'slack'
+            matchers:
+              - alertname =~ "Watchdog"
+        receivers:
+        - name: 'slack'
+          slack_configs:
+          - channel: '#demo-alerting' # channel of prometheus alert
+            send_resolved: true
+            # title: '[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] Monitoring Event Notification'
+            title: 'urgent action needed Instance is down'

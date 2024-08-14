@@ -2,7 +2,10 @@ alertmanager:
   enabled: true
   config:
     global:
-      resolve_timeout: 5m
+      # resolve_timeout: 5m
+      slack-app-uri: https://hooks.slack.com/services/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
+      channel: '#demo-alerting'
+      text: 'urgent action needed Instance is down'
     route:
       group_by: [alertname]
       receiver: 'slack'
@@ -16,7 +19,7 @@ alertmanager:
     - name: 'slack'
       slack_configs:
           # - url: https://talk.improwised.com/hooks/91rz8cc69bgftgrqgwh5dx988e
-          - url: https://hooks.slack.com/services/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
+          # - url: https://hooks.slack.com/services/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
             channel: '#demo-alerting' 
             text: 'urgent action needed Instance is down'
     rule_files:

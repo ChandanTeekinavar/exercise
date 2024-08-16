@@ -1,0 +1,19 @@
+ alertmanager:
+      alertmanagerSpec:
+        replicas: 2
+        podAntiAffinity: "hard"
+      config:
+        global:
+          slack_api_url: ""
+        route:
+          receiver: 'slack'
+          routes:
+          - receiver: 'slack'
+            matchers:
+              - alertname =~ "Watchdog"
+        receivers:
+        - name: 'slack'
+          slack_configs:
+          - channel: '' # channel of prometheus alert
+            send_resolved: true
+            title: '[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] Monitoring Event Notification'

@@ -7,8 +7,6 @@
           slack_api_url: "https://talk.improwised.com/hooks/91rz8cc69bgftgrqgwh5dx988e"
         route:        
           receiver: 'slack'
-          group_interval: 30s
-          repeat_interval: 30s
           routes:
           - receiver: 'slack'
             matchers:

@@ -5,7 +5,8 @@
       config:
         global:
           slack_api_url: "https://talk.improwised.com/hooks/91rz8cc69bgftgrqgwh5dx988e"
-        route:        
+        route:       
+          repeat_interval: 30s 
           receiver: 'slack'
           routes:
           - receiver: 'slack'
@@ -17,4 +18,13 @@
           - channel: '#demo-alerting' # channel of prometheus alert
             send_resolved: true
             # title: 'urgent action needed Instance is down'
-            title: '{{ .CommonAnnotations.summary }}'
+            # title: '{{ .CommonAnnotations.summary }}'
+            # title: 'Urgent action needed: {{ .GroupLabels.alertname }}'
+            # text: |
+            #   Severity: {{ .CommonLabels.severity }}
+            # title: 'Urgent action needed: {{ .GroupLabels.alertname }}'
+            tittle: 'Urgent action needed: {{ .CommonAnnotations.summary }}'
+            text: |
+              Severity: {{ .CommonLabels.severity }}
+              Pod: {{ .CommonLabels.pod }}
+              Namespace: {{ .CommonLabels.namespace }}
